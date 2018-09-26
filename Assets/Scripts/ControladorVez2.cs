@@ -37,7 +37,7 @@ public class ControladorVez2 : MonoBehaviour {
         gameOver = false;
 		animJ = jogador.GetComponent<Animator> ();
 		animI = inimigo.GetComponent<Animator> ();
-		yield return new WaitForSecondsRealtime (3);
+		yield return new WaitUntil(()=>DefaultTrackableEventHandler.qrCodeAtivado == true);
         vidas = FindObjectsOfType<Slider>();
         foreach (Slider s in vidas)
         {
@@ -65,27 +65,27 @@ public class ControladorVez2 : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (verificAnims == true) {
-			if (vezJogador == true) {
-				if (funcRodando == false) {
-                    StartCoroutine(JogadorVez ());
-				}
-			} else {
-				if (funcRodando == false) {
-                    StartCoroutine(InimigoVez());
-				}
-			}
-		}
+        if (DefaultTrackableEventHandler.qrCodeAtivado == true) {
+            if (verificAnims == true) {
+                if (vezJogador == true) {
+                    if (funcRodando == false) {
+                        StartCoroutine(JogadorVez());
+                    }
+                } else {
+                    if (funcRodando == false) {
+                        StartCoroutine(InimigoVez());
+                    }
+                }
+            }
 
-		if (verificAnims == true) {
-			AnimatorIsPlayingI (animI,name);
-			AnimatorIsPlayingJ (animJ, name2);
-		}
-        if(gameOver == true)
-        {
-            if(Input.anyKeyDown == true)
-            {
-                SceneManager.LoadScene("ARLatinha");
+            if (verificAnims == true) {
+                AnimatorIsPlayingI(animI, name);
+                AnimatorIsPlayingJ(animJ, name2);
+            }
+            if (gameOver == true) {
+                if (Input.anyKeyDown == true) {
+                    SceneManager.LoadScene("ARLatinha");
+                }
             }
         }
 	}
@@ -116,6 +116,7 @@ public class ControladorVez2 : MonoBehaviour {
 				//print("Jogador Desviou O Ataque");
 				jDesviou += 1;
                 tipoAtk = 0;
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 animI.SetTrigger("Ataque1");
                 name = "Ataque1";
                 anim = animI;
@@ -133,14 +134,16 @@ public class ControladorVez2 : MonoBehaviour {
                 animJ.SetTrigger("Esquiva");
 				name2 = "Esquiva";
 				duasAnim = true;
-				StartCoroutine (AnimRodando(animJ, "Jogador"));
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                StartCoroutine (AnimRodando(animJ, "Jogador"));
 			} else {
 				//print("Inimigo Acertou O Ataque");
 				//print("Vida Jogador = " + jogador.GetComponent<Classes>().hp);
 				jogador.GetComponent<Classes>().hp -= inimigo.GetComponent<Classes>().dano;
 				if (jogador.GetComponent<Classes> ().hp > 0) {
 					tipoAtk = UnityEngine.Random.Range (0, 2);
-					if (tipoAtk == 0) {
+                    yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                    if (tipoAtk == 0) {
 						animI.SetTrigger ("Ataque1");
 						name = "Ataque1";
 						anim = animI;
@@ -158,6 +161,7 @@ public class ControladorVez2 : MonoBehaviour {
                 //if on trigger play Tomou dano do jogador
                  yield return new WaitWhile(() => DetectorDeHit.encostou == false);
                 sliderJ.value = jogador.GetComponent<Classes>().hp;
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 animJ.SetTrigger("Dano");
 				name2 = "Dano";
 				duasAnim = true;
@@ -170,8 +174,10 @@ public class ControladorVez2 : MonoBehaviour {
 					print("Vida Jogador = " + jogador.GetComponent<Classes>().hp);
 					print("Inimigo Venceu");
                     gameOver = true;
-				} else {
-					StartCoroutine (AnimRodando(animI,"Jogador"));
+                    DetectorDeHit.mao.Clear();
+                } else {
+                    yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                    StartCoroutine (AnimRodando(animI,"Jogador"));
 				}
 			}
 		}
@@ -193,6 +199,7 @@ public class ControladorVez2 : MonoBehaviour {
 				//print("Jogador Errou O Ataque");
 				iDesviou += 1;
                 tipoAtk = 0;
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 animJ.SetTrigger("Ataque1");
                 name = "Ataque1";
                 anim = animJ;
@@ -213,14 +220,16 @@ public class ControladorVez2 : MonoBehaviour {
 				anim = animI;
 				duasAnim = true;
                 Esquiva.esquivar = false;
-				StartCoroutine (AnimRodando (animI,"Inimigo"));
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                StartCoroutine (AnimRodando (animI,"Inimigo"));
 			} else {
 				//print("Jogador Acertou O Ataque");
 				//print("Vida Inimigo = " + inimigo.GetComponent<Classes>().hp);
 				inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
 				if (inimigo.GetComponent<Classes> ().hp > 0) {
 					tipoAtk = UnityEngine.Random.Range (0, 2);
-					if (tipoAtk == 0) {
+                    yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                    if (tipoAtk == 0) {
 						animJ.SetTrigger ("Ataque1");
 						name2 = "Ataque1";
 						anim = animJ;
@@ -238,6 +247,7 @@ public class ControladorVez2 : MonoBehaviour {
                 yield return new WaitWhile(() => DetectorDeHit.encostou == false);
                // yield return new WaitForSecondsRealtime(1.5f);
                 slider.value = inimigo.GetComponent<Classes> ().hp;
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 animI.SetTrigger("Dano");
                 name = "Dano";
 				duasAnim = true;
@@ -250,8 +260,10 @@ public class ControladorVez2 : MonoBehaviour {
 					print("Vida Inimigo = " + inimigo.GetComponent<Classes>().hp);
 					print("Jogador Venceu");
                     gameOver = true;
+                    DetectorDeHit.mao.Clear();
 				} else {
-					StartCoroutine (AnimRodando (animJ,"Inimigo"));
+                    yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                    StartCoroutine (AnimRodando (animJ,"Inimigo"));
 				}
 			}
 		}
@@ -278,6 +290,7 @@ public class ControladorVez2 : MonoBehaviour {
 			float porcJ = (jogador.GetComponent<Classes> ().hp / jogador.GetComponent<Classes> ().maxHp) * 100;
             if (name == "Dano" || name == "Esquiva")
             {
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 if (porcI > 50)
                 {
                     animI.SetTrigger("Idle");
@@ -308,6 +321,7 @@ public class ControladorVez2 : MonoBehaviour {
                 }
                 verificAnims = true;
                 yield return new WaitWhile(() => animJRodando == true);
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 verificAnims = false;
                 if (porcJ > 50)
                 {
@@ -326,6 +340,7 @@ public class ControladorVez2 : MonoBehaviour {
                     animJ.SetTrigger("Derrota");
                 }
                 DetectorDeHit.encostou = false;
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 foreach (SphereCollider m in DetectorDeHit.mao) {
                     if (m.enabled == false) {
                         m.enabled = true;
@@ -338,6 +353,7 @@ public class ControladorVez2 : MonoBehaviour {
                     print(DetectorDeHit.encostou);
                     vezDoInimigo = false;
                     vezDoJogador = false;
+                    yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                     StartCoroutine(InimigoVez());
                 }
                 else if (vezDeQuem == "Jogador")
@@ -345,11 +361,13 @@ public class ControladorVez2 : MonoBehaviour {
                     print(DetectorDeHit.encostou);
                     vezDoInimigo = false;
                     vezDoJogador = false;
+                    yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                     StartCoroutine(JogadorVez());
                 }
             }
             else if (name2 == "Dano" || name2 == "Esquiva")
             {
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 if (porcJ > 50)
                 {
                     animJ.SetTrigger("Idle");
@@ -368,6 +386,7 @@ public class ControladorVez2 : MonoBehaviour {
                 }
                 verificAnims = true;
                 yield return new WaitWhile(() => animIRodando == true);
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 verificAnims = false;
                 if (porcI > 50)
                 {
@@ -386,7 +405,8 @@ public class ControladorVez2 : MonoBehaviour {
                     animI.SetTrigger("Derrota");
                 }
                 DetectorDeHit.encostou = false;
-                foreach(SphereCollider m in DetectorDeHit.mao) {
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                foreach (SphereCollider m in DetectorDeHit.mao) {
                     if(m.enabled == false) {
                         m.enabled = true;
                     }
@@ -398,12 +418,14 @@ public class ControladorVez2 : MonoBehaviour {
                     print(DetectorDeHit.encostou);
                     vezDoInimigo = false;
                     vezDoJogador = false;
+                    yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                     StartCoroutine(InimigoVez());
                 }
                 else if (vezDeQuem == "Jogador")
                 {
                     vezDoInimigo = false;
                     vezDoJogador = false;
+                    yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                     StartCoroutine(JogadorVez());
                 }
             }
