@@ -108,6 +108,7 @@ public class ControladorVez2 : MonoBehaviour {
 		if (cAtk > inimigo.GetComponent<Classes>().chanceAtk) {
 			iErrou += 1;
             vezDoInimigo = false;
+            yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
             StartCoroutine(JogadorVez());
         } else {
 			//print("Inimigo Vai Atacar");
@@ -131,6 +132,8 @@ public class ControladorVez2 : MonoBehaviour {
                         anim = animI;
                     }
                     */
+                yield return new WaitUntil(() => Esquiva.esquivar == true);
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 animJ.SetTrigger("Esquiva");
 				name2 = "Esquiva";
 				duasAnim = true;
@@ -191,7 +194,8 @@ public class ControladorVez2 : MonoBehaviour {
 		if (cAtk > jogador.GetComponent<Classes>().chanceAtk) {
 			jErrou += 1;
             vezDoJogador = false;
-			StartCoroutine(InimigoVez());
+            yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+            StartCoroutine(InimigoVez());
 		} else {
 			//print("Jogador Vai Atacar");
 			int desviou = UnityEngine.Random.Range(1, 101);
@@ -215,6 +219,7 @@ public class ControladorVez2 : MonoBehaviour {
                     }
                     */
                 yield return new WaitUntil(()=> Esquiva.esquivar == true);
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 animI.SetTrigger("Esquiva");
 				name = "Esquiva";
 				anim = animI;
@@ -298,9 +303,12 @@ public class ControladorVez2 : MonoBehaviour {
                 else if (porcI > 25 && porcI < 51)
                 {
                     animI.SetTrigger("IdleMach");
+                    
                     GameObject[] faiscas = GameObject.FindGameObjectsWithTag("faiscaMenor");
                     foreach (GameObject f in faiscas) {
-                        f.GetComponent<ParticleSystem>().Play();
+                        if (f.transform.IsChildOf(inimigo.transform) == true) {
+                            f.GetComponent<ParticleSystem>().Play();
+                        }
                     }
                 }
                 else if (porcI < 26 && porcI > 0)
@@ -308,11 +316,15 @@ public class ControladorVez2 : MonoBehaviour {
                     animI.SetTrigger("IdleMtMach");
                     GameObject[] faiscasMenor = GameObject.FindGameObjectsWithTag("faiscaMenor");
                     foreach (GameObject f in faiscasMenor) {
-                        f.GetComponent<ParticleSystem>().Stop();
+                        if (f.transform.IsChildOf(inimigo.transform) == true) {
+                            f.GetComponent<ParticleSystem>().Stop();
+                        }
                     }
                     GameObject[] faiscas = GameObject.FindGameObjectsWithTag("faisca");
                     foreach (GameObject f in faiscas) {
-                        f.GetComponent<ParticleSystem>().Play();
+                        if (f.transform.IsChildOf(inimigo.transform) == true) {
+                            f.GetComponent<ParticleSystem>().Play();
+                        }
                     }
                 }
                 else
@@ -329,11 +341,32 @@ public class ControladorVez2 : MonoBehaviour {
                 }
                 else if (porcJ > 25 && porcJ < 51)
                 {
+
                     animJ.SetTrigger("IdleMach");
+                    print("DADAD!");
+                    GameObject[] faiscasMenor = GameObject.FindGameObjectsWithTag("faiscaMenor");
+                    foreach (GameObject f in faiscasMenor) {
+                        if (f.transform.IsChildOf(jogador.transform) == true) {
+                            f.GetComponent<ParticleSystem>().Play();
+                        }
+                    }
                 }
                 else if (porcJ < 26 && porcJ > 0)
                 {
                     animJ.SetTrigger("IdleMtMach");
+
+                    GameObject[] faiscasMenor = GameObject.FindGameObjectsWithTag("faiscaMenor");
+                    foreach (GameObject f in faiscasMenor) {
+                        if (f.transform.IsChildOf(jogador.transform) == true) {
+                            f.GetComponent<ParticleSystem>().Stop();
+                        }
+                    }
+                    GameObject[] faiscas = GameObject.FindGameObjectsWithTag("faisca");
+                    foreach (GameObject f in faiscas) {
+                        if (f.transform.IsChildOf(jogador.transform) == true) {
+                            f.GetComponent<ParticleSystem>().Play();
+                        }
+                    }
                 }
                 else
                 {
@@ -375,10 +408,28 @@ public class ControladorVez2 : MonoBehaviour {
                 else if (porcJ > 25 && porcJ < 51)
                 {
                     animJ.SetTrigger("IdleMach");
+                    GameObject[] faiscasMenor = GameObject.FindGameObjectsWithTag("faiscaMenor");
+                    foreach (GameObject f in faiscasMenor) {
+                        if (f.transform.IsChildOf(jogador.transform) == true) {
+                            f.GetComponent<ParticleSystem>().Play();
+                        }
+                    }
                 }
                 else if (porcJ < 26 && porcJ > 0)
                 {
                     animJ.SetTrigger("IdleMtMach");
+                    GameObject[] faiscasMenor = GameObject.FindGameObjectsWithTag("faiscaMenor");
+                    foreach (GameObject f in faiscasMenor) {
+                        if (f.transform.IsChildOf(jogador.transform) == true) {
+                            f.GetComponent<ParticleSystem>().Stop();
+                        }
+                    }
+                    GameObject[] faiscas = GameObject.FindGameObjectsWithTag("faisca");
+                    foreach (GameObject f in faiscas) {
+                        if (f.transform.IsChildOf(jogador.transform) == true) {
+                            f.GetComponent<ParticleSystem>().Play();
+                        }
+                    }
                 }
                 else
                 {
@@ -395,10 +446,29 @@ public class ControladorVez2 : MonoBehaviour {
                 else if (porcI > 25 && porcI < 51)
                 {
                     animI.SetTrigger("IdleMach");
+                    GameObject[] faiscasMenor = GameObject.FindGameObjectsWithTag("faiscaMenor");
+                    foreach (GameObject f in faiscasMenor) {
+                        if (f.transform.IsChildOf(inimigo.transform) == true) {
+                            f.GetComponent<ParticleSystem>().Play();
+                        }
+                    }
+
                 }
                 else if (porcI < 26 && porcI > 0)
                 {
                     animI.SetTrigger("IdleMtMach");
+                    GameObject[] faiscasMenor = GameObject.FindGameObjectsWithTag("faiscaMenor");
+                    foreach (GameObject f in faiscasMenor) {
+                        if (f.transform.IsChildOf(inimigo.transform) == true) {
+                            f.GetComponent<ParticleSystem>().Stop();
+                        }
+                    }
+                    GameObject[] faiscas = GameObject.FindGameObjectsWithTag("faisca");
+                    foreach (GameObject f in faiscas) {
+                        if (f.transform.IsChildOf(inimigo.transform) == true) {
+                            f.GetComponent<ParticleSystem>().Play();
+                        }
+                    }
                 }
                 else
                 {
