@@ -143,8 +143,8 @@ public class ControladorVez2 : MonoBehaviour {
 				//print("Inimigo Acertou O Ataque");
 				//print("Vida Jogador = " + jogador.GetComponent<Classes>().hp);
 				jogador.GetComponent<Classes>().hp -= inimigo.GetComponent<Classes>().dano;
-				if (jogador.GetComponent<Classes> ().hp > 0) {
-					tipoAtk = UnityEngine.Random.Range (0, 2);
+                if (jogador.GetComponent<Classes> ().hp > 0) {
+                    tipoAtk = UnityEngine.Random.Range (0, 2);
                     yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                     if (tipoAtk == 0) {
 						animI.SetTrigger ("Ataque1");
@@ -161,8 +161,9 @@ public class ControladorVez2 : MonoBehaviour {
 					name = "AtaqueEspecial";
 					anim = animI;
 				}
-                //if on trigger play Tomou dano do jogador
+                print("BBBB");
                  yield return new WaitWhile(() => DetectorDeHit.encostou == false);
+                print("AAAA");
                 sliderJ.value = jogador.GetComponent<Classes>().hp;
                 yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 animJ.SetTrigger("Dano");

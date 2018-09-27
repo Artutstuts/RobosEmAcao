@@ -23,14 +23,15 @@ public class DetectorDeHit : MonoBehaviour {
         if (other.gameObject.tag == "Esquiva") {
             print("OGJISDHWHS");
         }
-        if (GameObject.Find("Controlador").GetComponent<ControladorVez2>().inimigo.gameObject == /*(isso pega o qrCoDE) gameObject.transform.root.gameObject*/ gameObject.transform.parent.transform.parent.transform.parent.transform.parent.transform.parent.transform.parent.transform.parent.transform.parent.gameObject) {
+        if (GameObject.Find("Controlador").GetComponent<ControladorVez2>().inimigo.transform == /*(isso pega o qrCoDE) gameObject.transform.root.gameObject*/ gameObject.transform.parent.IsChildOf(GameObject.Find("Controlador").GetComponent<ControladorVez2>().inimigo.transform)) {
             if (ControladorVez2.vezDoInimigo == true) {
                 if (other.gameObject.tag == "TorsoEt") {
                     if (ControladorVez2.tipoAtk == 0) {
                         if (gameObject.tag == "LMao") {
-                           // print("HUEHUE");
+                            print("HUEHUE");
                             gameObject.GetComponent<SphereCollider>().enabled = false;
                             encostou = true;
+                            print(encostou);
                         }
                     } else if (ControladorVez2.tipoAtk == 1) {
                         if (gameObject.tag == "RMao") {
@@ -48,7 +49,7 @@ public class DetectorDeHit : MonoBehaviour {
                 }
             }
         }
-        if (GameObject.Find("Controlador").GetComponent<ControladorVez2>().jogador.gameObject == /*gameObject.transform.root.gameObject*/ gameObject.transform.parent.transform.parent.transform.parent.transform.parent.transform.parent.transform.parent.transform.parent.transform.parent.transform.parent.gameObject) {
+        if (GameObject.Find("Controlador").GetComponent<ControladorVez2>().jogador.transform == /*gameObject.transform.root.gameObject*/ gameObject.transform.parent.IsChildOf(GameObject.Find("Controlador").GetComponent<ControladorVez2>().jogador.transform)) {
             if (ControladorVez2.vezDoJogador == true) {
                 if (other.gameObject.tag == "TorsoEt") {
                     if (ControladorVez2.tipoAtk == 0) {
