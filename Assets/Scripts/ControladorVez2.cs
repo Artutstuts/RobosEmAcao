@@ -34,6 +34,9 @@ public class ControladorVez2 : MonoBehaviour {
     float x;
     float y;
     bool jaRodou = false;
+    bool acertouBotao = false;
+    public SpriteState sprstat;
+
 
 
 	// Use this for initialization
@@ -541,15 +544,28 @@ public class ControladorVez2 : MonoBehaviour {
         qTE.rectTransform.localPosition = new Vector3(x, y);
         qTE.enabled = true;
         Time.timeScale = 0.2f;
-        yield return new WaitForSecondsRealtime(0.5f);
-        Time.timeScale = 1;
-        qTE.enabled = false;
-        GameObject.Find("Text").GetComponent<Text>().enabled = false;
-        jaRodou = true;
-        yield return new WaitForSecondsRealtime(20f);
-        print("ASD");
-        jaRodou = false;
+        yield return new WaitForSecondsRealtime(0.8f);
+        if (acertouBotao == true) {
+            Time.timeScale = 0.1f;
+        } else {
+            Time.timeScale = 1;
+            qTE.enabled = false;
+            jaRodou = true;
+            yield return new WaitForSecondsRealtime(20f);
+            print("ASD");
+            jaRodou = false;
+        }
+        
 
+    }
+
+    public void Clicou() {
+        acertouBotao = true;
+        GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().transition = Selectable.Transition.SpriteSwap;
+        GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().spriteState = sprstat;
+        qTE.rectTransform.localPosition = new Vector3(0, -180);
+        qTE.rectTransform.localScale = new Vector3(0.08f, 0.08f);
+        GameObject.Find("QuickTimeEventStarter").GetComponentInChildren<Slider>().value += 10;
     }
 
 
