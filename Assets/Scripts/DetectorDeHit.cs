@@ -21,17 +21,17 @@ public class DetectorDeHit : MonoBehaviour {
 
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Esquiva") {
-            print("OGJISDHWHS");
+          //  print("OGJISDHWHS");
         }
         if (GameObject.Find("Controlador").GetComponent<ControladorVez2>().inimigo.transform == /*(isso pega o qrCoDE) gameObject.transform.root.gameObject*/ gameObject.transform.parent.IsChildOf(GameObject.Find("Controlador").GetComponent<ControladorVez2>().inimigo.transform)) {
             if (ControladorVez2.vezDoInimigo == true) {
                 if (other.gameObject.tag == "TorsoEt") {
                     if (ControladorVez2.tipoAtk == 0) {
                         if (gameObject.tag == "LMao") {
-                            print("HUEHUE");
+                            //   print("HUEHUE");
                             gameObject.GetComponent<SphereCollider>().enabled = false;
                             encostou = true;
-                            print(encostou);
+                          //  print(encostou);
                         }
                     } else if (ControladorVez2.tipoAtk == 1) {
                         if (gameObject.tag == "RMao") {
@@ -58,13 +58,13 @@ public class DetectorDeHit : MonoBehaviour {
                             encostou = true;
                         }
                     } else if (ControladorVez2.tipoAtk == 1) {
-                        print("ataque2");
+                      //  print("ataque2");
                         if (gameObject.tag == "RMao") {
                             gameObject.GetComponent<SphereCollider>().enabled = false;
                             encostou = true;
                         }
                     } else if (ControladorVez2.tipoAtk == 3) {
-                        print("ataque3");
+                     //   print("ataque3");
                         if (gameObject.tag == "LMao" || gameObject.name == "RMao") {
                             gameObject.GetComponent<SphereCollider>().enabled = false;
                             encostou = true;

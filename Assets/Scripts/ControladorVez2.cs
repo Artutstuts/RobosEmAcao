@@ -30,6 +30,10 @@ public class ControladorVez2 : MonoBehaviour {
 	string name2;
     public static int tipoAtk = 4;
     bool gameOver;
+    public Image qTE;
+    float x;
+    float y;
+    bool jaRodou = false;
 
 
 	// Use this for initialization
@@ -146,6 +150,12 @@ public class ControladorVez2 : MonoBehaviour {
                 if (jogador.GetComponent<Classes> ().hp > 0) {
                     tipoAtk = UnityEngine.Random.Range (0, 2);
                     yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                    int chnace = Random.Range(0, 101);
+                    if (chnace < 40) {
+                        if (jaRodou == false) {
+                            StartCoroutine(QuickTimeEvent());
+                        }
+                    }
                     if (tipoAtk == 0) {
 						animI.SetTrigger ("Ataque1");
 						name = "Ataque1";
@@ -161,15 +171,15 @@ public class ControladorVez2 : MonoBehaviour {
 					name = "AtaqueEspecial";
 					anim = animI;
 				}
-                print("BBBB");
+               // print("BBBB");
                  yield return new WaitWhile(() => DetectorDeHit.encostou == false);
-                print("AAAA");
+               // print("AAAA");
                 sliderJ.value = jogador.GetComponent<Classes>().hp;
                 yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 animJ.SetTrigger("Dano");
 				name2 = "Dano";
 				duasAnim = true;
-				print("Vida Jogador = " + jogador.GetComponent<Classes>().hp);
+				//print("Vida Jogador = " + jogador.GetComponent<Classes>().hp);
 				if (jogador.GetComponent<Classes>().hp <= 0) {
 					//play Derrota jogador					
 					StartCoroutine(AnimRodando(animI,"ninguem"));
@@ -235,6 +245,12 @@ public class ControladorVez2 : MonoBehaviour {
 				if (inimigo.GetComponent<Classes> ().hp > 0) {
 					tipoAtk = UnityEngine.Random.Range (0, 2);
                     yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                    int chnace = Random.Range(0, 101);
+                    if (chnace < 40) {
+                        if (jaRodou == false) {
+                            StartCoroutine(QuickTimeEvent());
+                        }
+                    }
                     if (tipoAtk == 0) {
 						animJ.SetTrigger ("Ataque1");
 						name2 = "Ataque1";
@@ -257,7 +273,7 @@ public class ControladorVez2 : MonoBehaviour {
                 animI.SetTrigger("Dano");
                 name = "Dano";
 				duasAnim = true;
-				print("Vida Inimigo = " + inimigo.GetComponent<Classes>().hp);
+				//print("Vida Inimigo = " + inimigo.GetComponent<Classes>().hp);
 				if (inimigo.GetComponent<Classes>().hp <= 0) {
 					//play Derrota inimigo
 					StartCoroutine(AnimRodando(animI,"ninguem"));
@@ -344,7 +360,7 @@ public class ControladorVez2 : MonoBehaviour {
                 {
 
                     animJ.SetTrigger("IdleMach");
-                    print("DADAD!");
+                  //  print("DADAD!");
                     GameObject[] faiscasMenor = GameObject.FindGameObjectsWithTag("faiscaMenor");
                     foreach (GameObject f in faiscasMenor) {
                         if (f.transform.IsChildOf(jogador.transform) == true) {
@@ -384,7 +400,7 @@ public class ControladorVez2 : MonoBehaviour {
                 yield return new WaitForSecondsRealtime(0.5f);
                 if (vezDeQuem == "Inimigo")
                 {
-                    print(DetectorDeHit.encostou);
+                 //   print(DetectorDeHit.encostou);
                     vezDoInimigo = false;
                     vezDoJogador = false;
                     yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
@@ -392,7 +408,7 @@ public class ControladorVez2 : MonoBehaviour {
                 }
                 else if (vezDeQuem == "Jogador")
                 {
-                    print(DetectorDeHit.encostou);
+                  //  print(DetectorDeHit.encostou);
                     vezDoInimigo = false;
                     vezDoJogador = false;
                     yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
@@ -486,7 +502,7 @@ public class ControladorVez2 : MonoBehaviour {
                 yield return new WaitForSecondsRealtime(0.5f);
                 if (vezDeQuem == "Inimigo")
                 {
-                    print(DetectorDeHit.encostou);
+                  //  print(DetectorDeHit.encostou);
                     vezDoInimigo = false;
                     vezDoJogador = false;
                     yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
@@ -517,6 +533,24 @@ public class ControladorVez2 : MonoBehaviour {
 			animJRodando = false;
 		}
 	}
+
+    IEnumerator QuickTimeEvent() {
+        yield return new WaitForSecondsRealtime(0.5f);
+        y = Random.Range(0, 200);
+        x = Random.Range(-90, 100);
+        qTE.rectTransform.localPosition = new Vector3(x, y);
+        qTE.enabled = true;
+        Time.timeScale = 0.2f;
+        yield return new WaitForSecondsRealtime(0.5f);
+        Time.timeScale = 1;
+        qTE.enabled = false;
+        GameObject.Find("Text").GetComponent<Text>().enabled = false;
+        jaRodou = true;
+        yield return new WaitForSecondsRealtime(20f);
+        print("ASD");
+        jaRodou = false;
+
+    }
 
 
 
