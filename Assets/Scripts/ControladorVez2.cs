@@ -30,17 +30,19 @@ public class ControladorVez2 : MonoBehaviour {
 	string name2;
     public static int tipoAtk = 4;
     bool gameOver;
-    public Image qTE;
+    public GameObject qTE;
     float x;
     float y;
     bool jaRodou = false;
     bool acertouBotao = false;
-    public SpriteState sprstat;
+    public SpriteState sprstatATK;
+    public SpriteState sprstatDEF;
+    public Sprite sprtDEF;
 
 
 
-	// Use this for initialization
-	IEnumerator Start () {
+    // Use this for initialization
+    IEnumerator Start () {
         gameOver = false;
 		animJ = jogador.GetComponent<Animator> ();
 		animI = inimigo.GetComponent<Animator> ();
@@ -539,34 +541,41 @@ public class ControladorVez2 : MonoBehaviour {
 
     IEnumerator QuickTimeEvent() {
         yield return new WaitForSecondsRealtime(0.5f);
-        y = Random.Range(0, 200);
-        x = Random.Range(-90, 100);
-        qTE.rectTransform.localPosition = new Vector3(x, y);
-        qTE.enabled = true;
+        y = Random.Range(-100, 60);
+        x = Random.Range(-20, -140);
+        qTE.transform.localPosition = new Vector3(x, y);
+        qTE.GetComponentInChildren<Image>().enabled = true;
         Time.timeScale = 0.2f;
         yield return new WaitForSecondsRealtime(0.8f);
         if (acertouBotao == true) {
             Time.timeScale = 0.1f;
         } else {
-            Time.timeScale = 1;
-            qTE.enabled = false;
-            jaRodou = true;
-            yield return new WaitForSecondsRealtime(20f);
-            print("ASD");
-            jaRodou = false;
+            GameObject.Find("QuickTimeEventStarter").GetComponent<Image>().sprite = sprtDEF;
+            GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().transition = Selectable.Transition.SpriteSwap;
+            GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().spriteState = sprstatDEF;
+            qTE.transform.localPosition = new Vector3(300, -360);
+          //  qTE.rectTransform.localScale = new Vector3(0.08f, 0.08f);
         }
-        
+      /*  Time.timeScale = 1;
+        qTE.enabled = false;
+        jaRodou = true;
+        yield return new WaitForSecondsRealtime(20f);
+        print("ASD");
+        jaRodou = false;
+        */
 
     }
 
     public void Clicou() {
         acertouBotao = true;
         GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().transition = Selectable.Transition.SpriteSwap;
-        GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().spriteState = sprstat;
-        qTE.rectTransform.localPosition = new Vector3(0, -180);
-        qTE.rectTransform.localScale = new Vector3(0.08f, 0.08f);
-        GameObject.Find("QuickTimeEventStarter").GetComponentInChildren<Slider>().value += 10;
+        GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().spriteState = sprstatATK;
+        qTE.transform.localPosition = new Vector3(300, -360);
+        //  qTE.rectTransform.localScale = new Vector3(0.08f, 0.08f);
+        GameObject.Find("SliderQTE").GetComponent<Slider>().value += 10;
     }
+
+
 
 
 
