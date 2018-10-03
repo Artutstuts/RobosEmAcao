@@ -22,12 +22,12 @@ public class ControladorVez2 : MonoBehaviour {
 	bool verificAnims;
 	bool animIRodando;
 	bool duasAnim;
-	string name;
+	public static string name;
 	Slider slider;
     Slider sliderJ;
     Slider[] vidas;
 	Animator anim;
-	string name2;
+	public static string name2;
     public static int tipoAtk = 4;
     bool gameOver;
     public GameObject qTE;
@@ -43,7 +43,10 @@ public class ControladorVez2 : MonoBehaviour {
     public Sprite sprtATK;
     public Slider SQTE;
     public Sprite sprtNEU;
-
+    public static bool danoDobradoJ = false;
+    public static bool danoDobradoI = false;
+    public static bool danoMetadeJ = false;
+    public static bool danoMetadeI = false;
 
 
     // Use this for initialization
@@ -166,29 +169,67 @@ public class ControladorVez2 : MonoBehaviour {
                             StartCoroutine(QuickTimeEventDEMODAY());
                         }
                     }
-                    if (tipoAtk == 0) {
-						animI.SetTrigger ("Ataque1");
-						name = "Ataque1";
-						anim = animI;
-					} else if(tipoAtk == 1){
-						animI.SetTrigger ("Ataque2");
-						name = "Ataque2";
-						anim = animI;
-					}
-				} else {
+
+                    if (danoDobradoI == false && danoMetadeI == false) {
+                        if (tipoAtk == 0) {
+                            animI.SetTrigger("Ataque1");
+                            name = "Ataque1";
+                            anim = animI;
+                        } else if (tipoAtk == 1) {
+                            animI.SetTrigger("Ataque2");
+                            name = "Ataque2";
+                            anim = animI;
+                        }
+                    } else if (danoDobradoI == true || danoMetadeI == true) {
+                        Time.timeScale = 0.5f;
+                        tipoAtk = 3;
+                        animI.SetTrigger("AtaqueEspecial");
+                        name = "AtaqueEspecial";
+                        anim = animI;
+                    }
+                } else {
                     tipoAtk = 3;
 					animI.SetTrigger ("AtaqueEspecial");
 					name = "AtaqueEspecial";
 					anim = animI;
-				}
-               // print("BBBB");
-                 yield return new WaitWhile(() => DetectorDeHit.encostou == false);
-               // print("AAAA");
-                sliderJ.value = jogador.GetComponent<Classes>().hp;
-                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
-                animJ.SetTrigger("Dano");
-				name2 = "Dano";
-				duasAnim = true;
+                    animI.SetBool("Vitoria", true);
+                }
+                // print("BBBB");
+                if ((danoDobradoI == false && danoMetadeI == false) || (danoDobradoI == true && danoMetadeI == false)) {
+                    if (danoDobradoI == true) {
+                        jogador.GetComponent<Classes>().hp -= inimigo.GetComponent<Classes>().dano;
+                        danoDobradoI = false;
+                    }
+                    yield return new WaitWhile(() => DetectorDeHit.encostou == false);
+                    // print("AAAA");
+                    
+                    yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                    animJ.SetTrigger("Dano");
+                    name2 = "Dano";
+                    duasAnim = true;
+                    sliderJ.value = jogador.GetComponent<Classes>().hp;
+                } else if(danoMetadeI == true){
+                    yield return new WaitUntil(() => Esquiva.defender == true);
+                    yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                    int r = Random.Range(0, 2);
+                    if(r == 0) {
+                        animJ.SetTrigger("Defesa1");
+                        name2 = "Defesa1";
+                        duasAnim = true;
+                        jogador.GetComponent<Classes>().hp -= (inimigo.GetComponent<Classes>().dano / 2);
+                        sliderJ.value = jogador.GetComponent<Classes>().hp;
+                        danoMetadeI = false;
+                        Esquiva.defender = false;
+                    } else {
+                        animJ.SetTrigger("Defesa2");
+                        name2 = "Defesa2";
+                        duasAnim = true;
+                        jogador.GetComponent<Classes>().hp -= (inimigo.GetComponent<Classes>().dano / 2);
+                        sliderJ.value = jogador.GetComponent<Classes>().hp;
+                        danoMetadeI = false;
+                        Esquiva.defender = false;
+                    }
+                }
 				//print("Vida Jogador = " + jogador.GetComponent<Classes>().hp);
 				if (jogador.GetComponent<Classes>().hp <= 0) {
 					//play Derrota jogador					
@@ -261,30 +302,70 @@ public class ControladorVez2 : MonoBehaviour {
                             StartCoroutine(QuickTimeEventDEMODAY());
                         }
                     }
-                    if (tipoAtk == 0) {
-						animJ.SetTrigger ("Ataque1");
-						name2 = "Ataque1";
-						anim = animJ;
-					} else if (tipoAtk == 1) {
-						animJ.SetTrigger ("Ataque2");
-						name2 = "Ataque2";
-						anim = animJ;
+                    if (danoDobradoJ == false && danoMetadeJ == false) {
+                        if (tipoAtk == 0) {
+                            animJ.SetTrigger("Ataque1");
+                            name2 = "Ataque1";
+                            anim = animJ;
+                        } else if (tipoAtk == 1) {
+                            animJ.SetTrigger("Ataque2");
+                            name2 = "Ataque2";
+                            anim = animJ;
+                        }
+                    } else if(danoDobradoJ == true || danoMetadeJ == true) {
+                        Time.timeScale = 0.5f;
+                        animJ.SetTrigger("AtaqueEspecial");
+                        name2 = "AtaqueEspecial";
+                        anim = animJ;
+                        print(Esquiva.defender);
                     }
 				} else {
                     tipoAtk = 3;
 					animJ.SetTrigger ("AtaqueEspecial");
 					name2 = "AtaqueEspecial";
 					anim = animJ;
+                    animJ.SetBool("Vitoria",true);
                 }
-                yield return new WaitWhile(() => DetectorDeHit.encostou == false);
-               // yield return new WaitForSecondsRealtime(1.5f);
-                slider.value = inimigo.GetComponent<Classes> ().hp;
-                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
-                animI.SetTrigger("Dano");
-                name = "Dano";
-				duasAnim = true;
-				//print("Vida Inimigo = " + inimigo.GetComponent<Classes>().hp);
-				if (inimigo.GetComponent<Classes>().hp <= 0) {
+                if ((danoDobradoJ == false && danoMetadeJ == false) || (danoDobradoJ == true && danoMetadeJ == false)) {
+                    if (danoDobradoJ == true) {
+                        inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                        danoDobradoJ = false;
+                    }
+                    yield return new WaitWhile(() => DetectorDeHit.encostou == false);
+                    // yield return new WaitForSecondsRealtime(1.5f);
+
+                    yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                    animI.SetTrigger("Dano");
+                    name = "Dano";
+                    duasAnim = true;
+
+                    slider.value = inimigo.GetComponent<Classes>().hp;
+                } else if(danoMetadeJ == true){
+                    yield return new WaitUntil(() => Esquiva.defender == true);
+                    yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                    int r = Random.Range(0, 2);
+                    if (r == 0) {
+                        print("1");
+                        animI.SetTrigger("Defesa1");
+                        name = "Defesa1";
+                        duasAnim = true;
+                        inimigo.GetComponent<Classes>().hp -= (jogador.GetComponent<Classes>().dano/2);
+                        slider.value = inimigo.GetComponent<Classes>().hp;
+                        danoMetadeJ = false;
+                        Esquiva.defender = false;
+                    } else {
+                        print("2");
+                        animI.SetTrigger("Defesa2");
+                        name = "Defesa2";
+                        duasAnim = true;
+                        inimigo.GetComponent<Classes>().hp -= (jogador.GetComponent<Classes>().dano / 2);
+                        slider.value = inimigo.GetComponent<Classes>().hp;
+                        danoMetadeJ = false;
+                        Esquiva.defender = false;
+                    }
+                }
+                    //print("Vida Inimigo = " + inimigo.GetComponent<Classes>().hp);
+                    if (inimigo.GetComponent<Classes>().hp <= 0) {
 					//play Derrota inimigo
 					StartCoroutine(AnimRodando(animI,"ninguem"));
 					print("Game Over");
@@ -306,12 +387,13 @@ public class ControladorVez2 : MonoBehaviour {
 		verificAnims = true;
 		yield return new WaitForSeconds (0.3f);
 		//print("FDJSIJF");
-        if(name == "Dano"|| name == "Esquiva"){
+        if(name == "Dano"|| name == "Esquiva" || name=="Defesa1" || name=="Defesa2"){
             yield return new WaitWhile(() => animIRodando == true);
         }
-        else if(name2 == "Dano"|| name2 == "Esquiva"){
+        else if(name2 == "Dano"|| name2 == "Esquiva" || name2 == "Defesa1" || name2 == "Defesa2") {
             yield return new WaitWhile(() => animJRodando == true);
         }
+        Time.timeScale = 1;
        // print(animJRodando);
         //print(animIRodando);
 		verificAnims = false;
@@ -320,7 +402,7 @@ public class ControladorVez2 : MonoBehaviour {
 			duasAnim = false;
 			float porcI = (inimigo.GetComponent<Classes> ().hp / inimigo.GetComponent<Classes> ().maxHp) * 100;
 			float porcJ = (jogador.GetComponent<Classes> ().hp / jogador.GetComponent<Classes> ().maxHp) * 100;
-            if (name == "Dano" || name == "Esquiva")
+            if (name == "Dano" || name == "Esquiva" || name == "Defesa1" || name == "Defesa2")
             {
                 yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 if (porcI > 50)
@@ -425,7 +507,7 @@ public class ControladorVez2 : MonoBehaviour {
                     StartCoroutine(JogadorVez());
                 }
             }
-            else if (name2 == "Dano" || name2 == "Esquiva")
+            else if (name2 == "Dano" || name2 == "Esquiva" || name2 == "Defesa1" || name2 == "Defesa2")
             {
                 yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 if (porcJ > 50)
@@ -558,10 +640,35 @@ public class ControladorVez2 : MonoBehaviour {
         }
         jaRodou = true;
         yield return new WaitWhile(()=> qTEOcorrendo == true);
+        if(SQTE.GetComponent<Slider>().value>75 && acertouBotao == true) {
+            print("200% DE DANO");
+            danoDobradoJ = true;
+        } else if (SQTE.GetComponent<Slider>().value > 75 && acertouBotao == false) {
+            print("SOFREU 150% DE DANO");
+            danoMetadeI = true;
+        } else if (SQTE.GetComponent<Slider>().value <75 && acertouBotao == true) {
+            print("150% DE DANO");
+            danoMetadeJ = true;
+        } else if (SQTE.GetComponent<Slider>().value < 75 && acertouBotao == false) {
+            print("SOFREU 200% DE DANO");
+            danoDobradoI = true;
+        }
+        acertouBotao = false;
+        SQTE.GetComponent<Slider>().value = 0;
+        SQTE.gameObject.SetActive(false);
         Time.timeScale = 1;
         GameObject.Find("QuickTimeEventStarter").GetComponent<Image>().sprite = sprtNEU;
         qTE.SetActive(false);
         yield return new WaitForSecondsRealtime(20f);
+        if(danoDobradoJ == true) {
+            yield return new WaitWhile(() => danoDobradoJ == true);
+        }else if(danoDobradoI == true) {
+            yield return new WaitWhile(() => danoDobradoI == true);
+        } else if(danoMetadeI == true) {
+            yield return new WaitWhile(() => danoMetadeI == true);
+        } else if (danoMetadeJ == true) {
+            yield return new WaitWhile(() => danoMetadeJ == true);
+        }
         print("ASD");
         jaRodou = false;
         
@@ -596,18 +703,13 @@ public class ControladorVez2 : MonoBehaviour {
         if(GameObject.Find("SliderQTE").GetComponent<Slider>().value == GameObject.Find("SliderQTE").GetComponent<Slider>().maxValue) {
             cheio = true;
             qTEOcorrendo = false;
-            acertouBotao = false;
-            SQTE.GetComponent<Slider>().value = 0;
-            SQTE.gameObject.SetActive(false);
+
         }
     }
 
     IEnumerator TempoPraDesativar() {
         yield return new WaitForSecondsRealtime(4f);
         qTEOcorrendo = false;
-        acertouBotao = false;
-        SQTE.GetComponent<Slider>().value = 0;
-        SQTE.gameObject.SetActive(false);
         
     }
 
