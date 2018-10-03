@@ -51,6 +51,9 @@ public class ControladorVez2 : MonoBehaviour {
     public GameObject hab2Botao;
     public GameObject hab3Botao;
     int pontoDeHab = 0;
+    bool hab1;
+    bool hab2;
+    bool hab3;
 
 
     // Use this for initialization
@@ -114,7 +117,17 @@ public class ControladorVez2 : MonoBehaviour {
                     SceneManager.LoadScene("ARLatinha");
                 }
             }
+            if(pontoDeHab >= 2) {
+                hab1Botao.SetActive(true);
+                if (pontoDeHab >= 4) {
+                    hab2Botao.SetActive(true);
+                    if(pontoDeHab == 6) {
+                        hab3Botao.SetActive(true);
+                    }
+                }
+            }
         }
+
 	}
 
 	private void Quemcomeca() {
@@ -194,7 +207,6 @@ public class ControladorVez2 : MonoBehaviour {
                             anim = animI;
                         }
                     } else if (danoDobradoI == true || danoMetadeI == true) {
-                        Time.timeScale = 0.5f;
                         tipoAtk = 3;
                         animI.SetTrigger("AtaqueEspecial");
                         name = "AtaqueEspecial";
@@ -305,7 +317,6 @@ public class ControladorVez2 : MonoBehaviour {
 			} else {
 				//print("Jogador Acertou O Ataque");
 				//print("Vida Inimigo = " + inimigo.GetComponent<Classes>().hp);
-				inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
 				if (inimigo.GetComponent<Classes> ().hp > 0) {
 					tipoAtk = UnityEngine.Random.Range (0, 2);
                     yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
@@ -315,25 +326,59 @@ public class ControladorVez2 : MonoBehaviour {
                             StartCoroutine(QuickTimeEventDEMODAY());
                         }
                     }
-                    if (danoDobradoJ == false && danoMetadeJ == false) {
-                        if (tipoAtk == 0) {
-                            animJ.SetTrigger("Ataque1");
-                            name2 = "Ataque1";
+                    if ((danoDobradoJ == false && danoMetadeJ == false)) {
+                        if (hab1 == true) {
+                            animJ.SetTrigger("Habilidade1");
+                            name2 = "Habilidade1";
                             anim = animJ;
-                        } else if (tipoAtk == 1) {
-                            animJ.SetTrigger("Ataque2");
-                            name2 = "Ataque2";
+                        } else if (hab2 == true) {
+                            animJ.SetTrigger("Habilidade2");
+                            name2 = "Habilidade2";
                             anim = animJ;
+                        } else if (hab3 == true) {
+                            animJ.SetTrigger("Habilidade3");
+                            name2 = "Habilidade3";
+                            anim = animJ;
+                        } else {
+                            if (tipoAtk == 0) {
+                                animJ.SetTrigger("Ataque1");
+                                name2 = "Ataque1";
+                                anim = animJ;
+                                if (pontoDeHab < 6) {
+                                    pontoDeHab++;
+                                }
+                            } else if (tipoAtk == 1) {
+                                animJ.SetTrigger("Ataque2");
+                                name2 = "Ataque2";
+                                anim = animJ;
+                                if (pontoDeHab < 6) {
+                                    pontoDeHab++;
+                                }
+                            }
                         }
-                    } else if(danoDobradoJ == true || danoMetadeJ == true) {
-                        Time.timeScale = 0.5f;
+                    } 
+                    else if((danoDobradoJ == true || danoMetadeJ == true) && (hab1 == false || hab2 == false || hab3 == false)) {
                         animJ.SetTrigger("AtaqueEspecial");
                         name2 = "AtaqueEspecial";
                         anim = animJ;
                         print(Esquiva.defender);
                     }
-                    if(pontoDeHab < 6) {
-                        pontoDeHab++;
+                    else if ((danoDobradoJ == false && danoMetadeJ == false) || (hab1 == true || hab2 == true || hab3 == true)) {
+                        if(hab1 == true) {
+                            animJ.SetTrigger("Habilidade1");
+                            name2 = "Habilidade1";
+                            anim = animJ;
+                        }
+                        else if (hab2 == true) {
+                            animJ.SetTrigger("Habilidade2");
+                            name2 = "Habilidade2";
+                            anim = animJ;
+                        }
+                        else if (hab3 == true) {
+                            animJ.SetTrigger("Habilidade3");
+                            name2 = "Habilidade3";
+                            anim = animJ;
+                        }
                     }
 				} else {
                     tipoAtk = 3;
@@ -342,15 +387,31 @@ public class ControladorVez2 : MonoBehaviour {
 					anim = animJ;
                     animJ.SetBool("Vitoria",true);
                 }
+                //ESPECIFICO PARA A DEMODAY
                 if ((danoDobradoJ == false && danoMetadeJ == false) || (danoDobradoJ == true && danoMetadeJ == false)) {
                     if (danoDobradoJ == true) {
                         inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
                         danoDobradoJ = false;
                     }
+                    if(hab1 == true) {
+                        inimigo.GetComponent<Classes>().hp += (jogador.GetComponent<Classes>().dano/2);
+                        jogador.GetComponent<Classes>().hp += (jogador.GetComponent<Classes>().dano / 2);
+                        sliderJ.value = jogador.GetComponent<Classes>().hp;
+                        hab1 = false;
+                    }
+                    if(hab2 == true) {
+                        inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                        hab2 = false;
+                    }
+                    if(hab3 == true) {
+                        inimigo.GetComponent<Classes>().hp -= (jogador.GetComponent<Classes>().dano*2);
+                        hab3 = false;
+                    }
                     yield return new WaitWhile(() => DetectorDeHit.encostou == false);
                     // yield return new WaitForSecondsRealtime(1.5f);
 
                     yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                    inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
                     animI.SetTrigger("Dano");
                     name = "Dano";
                     duasAnim = true;
@@ -361,7 +422,7 @@ public class ControladorVez2 : MonoBehaviour {
                     yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                     int r = Random.Range(0, 2);
                     if (r == 0) {
-                        print("1");
+                        inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
                         animI.SetTrigger("Defesa1");
                         name = "Defesa1";
                         duasAnim = true;
@@ -370,7 +431,7 @@ public class ControladorVez2 : MonoBehaviour {
                         danoMetadeJ = false;
                         Esquiva.defender = false;
                     } else {
-                        print("2");
+                        inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
                         animI.SetTrigger("Defesa2");
                         name = "Defesa2";
                         duasAnim = true;
@@ -730,10 +791,58 @@ public class ControladorVez2 : MonoBehaviour {
         
     }
 
-    public void Habilidades() {
-
+    public void Habilidade1() {
+        hab1 = true;
+        pontoDeHab -= 2;
+        if (pontoDeHab < 0) {
+            pontoDeHab = 0;
+        }
+        if (pontoDeHab < 6) {
+            hab3Botao.SetActive(false);
+        }
+        if (pontoDeHab < 4) {
+            hab2Botao.SetActive(false);
+        }
+        if (pontoDeHab < 2) {
+            hab1Botao.SetActive(false);
+        }
+        
     }
 
+    public void Habilidade2() {
+        hab2 = true;
+        pontoDeHab -= 4;
+        if (pontoDeHab < 0) {
+            pontoDeHab = 0;
+        }
+        if (pontoDeHab < 6) {
+            hab3Botao.SetActive(false);
+        }
+        if (pontoDeHab < 4) {
+            hab2Botao.SetActive(false);
+        }
+        if (pontoDeHab < 2) {
+            hab1Botao.SetActive(false);
+        }
+
+    }
+    public void Habilidade3() {
+        hab3 = true;
+        pontoDeHab -= 6;
+        if (pontoDeHab < 0) {
+            pontoDeHab = 0;
+        }
+        if (pontoDeHab < 6) {
+            hab3Botao.SetActive(false);
+        }
+        if (pontoDeHab < 4) {
+            hab2Botao.SetActive(false);
+        }
+        if (pontoDeHab < 2) {
+            hab1Botao.SetActive(false);
+        }
+
+    }
 
 
 
