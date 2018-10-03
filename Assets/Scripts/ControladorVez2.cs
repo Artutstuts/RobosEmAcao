@@ -47,10 +47,20 @@ public class ControladorVez2 : MonoBehaviour {
     public static bool danoDobradoI = false;
     public static bool danoMetadeJ = false;
     public static bool danoMetadeI = false;
+    public GameObject hab1Botao;
+    public GameObject hab2Botao;
+    public GameObject hab3Botao;
+    int pontoDeHab = 0;
 
 
     // Use this for initialization
     IEnumerator Start () {
+
+        hab1Botao.SetActive(false);
+        hab2Botao.SetActive(false);
+        hab3Botao.SetActive(false);
+
+
         gameOver = false;
 		animJ = jogador.GetComponent<Animator> ();
 		animI = inimigo.GetComponent<Animator> ();
@@ -153,6 +163,9 @@ public class ControladorVez2 : MonoBehaviour {
                 yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 animJ.SetTrigger("Esquiva");
 				name2 = "Esquiva";
+                if (pontoDeHab < 6) {
+                    pontoDeHab++;
+                }
 				duasAnim = true;
                 yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 StartCoroutine (AnimRodando(animJ, "Jogador"));
@@ -318,6 +331,9 @@ public class ControladorVez2 : MonoBehaviour {
                         name2 = "AtaqueEspecial";
                         anim = animJ;
                         print(Esquiva.defender);
+                    }
+                    if(pontoDeHab < 6) {
+                        pontoDeHab++;
                     }
 				} else {
                     tipoAtk = 3;
@@ -658,6 +674,7 @@ public class ControladorVez2 : MonoBehaviour {
         SQTE.gameObject.SetActive(false);
         Time.timeScale = 1;
         GameObject.Find("QuickTimeEventStarter").GetComponent<Image>().sprite = sprtNEU;
+        GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().transition = Selectable.Transition.ColorTint;
         qTE.SetActive(false);
         yield return new WaitForSecondsRealtime(20f);
         if(danoDobradoJ == true) {
@@ -712,6 +729,12 @@ public class ControladorVez2 : MonoBehaviour {
         qTEOcorrendo = false;
         
     }
+
+    public void Habilidades() {
+
+    }
+
+
 
 
 
