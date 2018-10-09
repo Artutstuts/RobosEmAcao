@@ -316,10 +316,11 @@ public class ControladorVez2 : MonoBehaviour {
                 yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                 StartCoroutine (AnimRodando (animI,"Inimigo"));
 			} else {
-				//print("Jogador Acertou O Ataque");
-				//print("Vida Inimigo = " + inimigo.GetComponent<Classes>().hp);
-				if (inimigo.GetComponent<Classes> ().hp > 0) {
-					tipoAtk = UnityEngine.Random.Range (0, 2);
+                //print("Jogador Acertou O Ataque");
+                //print("Vida Inimigo = " + inimigo.GetComponent<Classes>().hp);
+                inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                if (inimigo.GetComponent<Classes>().hp > 0) {
+                    tipoAtk = UnityEngine.Random.Range(0, 2);
                     yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
                     int chnace = Random.Range(0, 101);
                     if (chnace < 40) {
@@ -357,93 +358,99 @@ public class ControladorVez2 : MonoBehaviour {
                                 }
                             }
                         }
-                    } 
-                    else if((danoDobradoJ == true || danoMetadeJ == true) && (hab1 == false || hab2 == false || hab3 == false)) {
+                    } else if ((danoDobradoJ == true || danoMetadeJ == true) && (hab1 == false || hab2 == false || hab3 == false)) {
                         animJ.SetTrigger("AtaqueEspecial");
                         name2 = "AtaqueEspecial";
                         anim = animJ;
                         print(Esquiva.defender);
-                    }
-                    else if ((danoDobradoJ == false && danoMetadeJ == false) || (hab1 == true || hab2 == true || hab3 == true)) {
-                        if(hab1 == true) {
+                    } else if ((danoDobradoJ == false && danoMetadeJ == false) || (hab1 == true || hab2 == true || hab3 == true)) {
+                        if (hab1 == true) {
                             animJ.SetTrigger("Habilidade1");
                             name2 = "Habilidade1";
                             anim = animJ;
-                        }
-                        else if (hab2 == true) {
+                        } else if (hab2 == true) {
                             animJ.SetTrigger("Habilidade2");
                             name2 = "Habilidade2";
                             anim = animJ;
-                        }
-                        else if (hab3 == true) {
+                        } else if (hab3 == true) {
                             animJ.SetTrigger("Habilidade3");
                             name2 = "Habilidade3";
                             anim = animJ;
                         }
                     }
-				} else {
+
+                    //ESPECIFICO PARA A DEMODAY
+                    if ((danoDobradoJ == false && danoMetadeJ == false) || (danoDobradoJ == true && danoMetadeJ == false)) {
+                        if (danoDobradoJ == true) {
+                            inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                            danoDobradoJ = false;
+                        }
+                        if (hab1 == true) {
+                            inimigo.GetComponent<Classes>().hp += jogador.GetComponent<Classes>().dano / 2;
+                            jogador.GetComponent<Classes>().hp += jogador.GetComponent<Classes>().dano / 2;
+                            sliderJ.value = jogador.GetComponent<Classes>().hp;
+                            hab1 = false;
+                        }
+                        if (hab2 == true) {
+                            inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                            hab2 = false;
+                        }
+                        if (hab3 == true) {
+                            inimigo.GetComponent<Classes>().hp -= (jogador.GetComponent<Classes>().dano * 2);
+                            hab3 = false;
+                        }
+                        yield return new WaitWhile(() => DetectorDeHit.encostou == false);
+                        // yield return new WaitForSecondsRealtime(1.5f);
+
+                        yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                        //  inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                        animI.SetTrigger("Dano");
+                        name = "Dano";
+                        duasAnim = true;
+
+                        slider.value = inimigo.GetComponent<Classes>().hp;
+                    } else if (danoMetadeJ == true) {
+                        yield return new WaitUntil(() => Esquiva.defender == true);
+                        yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                        int r = Random.Range(0, 2);
+                        if (r == 0) {
+                            //  inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                            animI.SetTrigger("Defesa1");
+                            name = "Defesa1";
+                            duasAnim = true;
+                            inimigo.GetComponent<Classes>().hp -= (jogador.GetComponent<Classes>().dano / 2);
+                            slider.value = inimigo.GetComponent<Classes>().hp;
+                            danoMetadeJ = false;
+                            Esquiva.defender = false;
+                        } else {
+                            //   inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                            animI.SetTrigger("Defesa2");
+                            name = "Defesa2";
+                            duasAnim = true;
+                            inimigo.GetComponent<Classes>().hp -= (jogador.GetComponent<Classes>().dano / 2);
+                            slider.value = inimigo.GetComponent<Classes>().hp;
+                            danoMetadeJ = false;
+                            Esquiva.defender = false;
+                        }
+                    }
+                } else {
                     tipoAtk = 3;
-					animJ.SetTrigger ("AtaqueEspecial");
-					name2 = "AtaqueEspecial";
-					anim = animJ;
-                    animJ.SetBool("Vitoria",true);
-                }
-                //ESPECIFICO PARA A DEMODAY
-                if ((danoDobradoJ == false && danoMetadeJ == false) || (danoDobradoJ == true && danoMetadeJ == false)) {
-                    if (danoDobradoJ == true) {
-                        inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
-                        danoDobradoJ = false;
-                    }
-                    if(hab1 == true) {
-                        inimigo.GetComponent<Classes>().hp += (jogador.GetComponent<Classes>().dano/2);
-                        jogador.GetComponent<Classes>().hp += (jogador.GetComponent<Classes>().dano / 2);
-                        sliderJ.value = jogador.GetComponent<Classes>().hp;
-                        hab1 = false;
-                    }
-                    if(hab2 == true) {
-                        inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
-                        hab2 = false;
-                    }
-                    if(hab3 == true) {
-                        inimigo.GetComponent<Classes>().hp -= (jogador.GetComponent<Classes>().dano*2);
-                        hab3 = false;
-                    }
+                    animJ.SetTrigger("AtaqueEspecial");
+                    name2 = "AtaqueEspecial";
+                    anim = animJ;
+                    animJ.SetBool("Vitoria", true);
                     yield return new WaitWhile(() => DetectorDeHit.encostou == false);
                     // yield return new WaitForSecondsRealtime(1.5f);
 
                     yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
-                    inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                    //  inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                    slider.value = inimigo.GetComponent<Classes>().hp;
                     animI.SetTrigger("Dano");
                     name = "Dano";
                     duasAnim = true;
-
-                    slider.value = inimigo.GetComponent<Classes>().hp;
-                } else if(danoMetadeJ == true){
-                    yield return new WaitUntil(() => Esquiva.defender == true);
-                    yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
-                    int r = Random.Range(0, 2);
-                    if (r == 0) {
-                        inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
-                        animI.SetTrigger("Defesa1");
-                        name = "Defesa1";
-                        duasAnim = true;
-                        inimigo.GetComponent<Classes>().hp -= (jogador.GetComponent<Classes>().dano/2);
-                        slider.value = inimigo.GetComponent<Classes>().hp;
-                        danoMetadeJ = false;
-                        Esquiva.defender = false;
-                    } else {
-                        inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
-                        animI.SetTrigger("Defesa2");
-                        name = "Defesa2";
-                        duasAnim = true;
-                        inimigo.GetComponent<Classes>().hp -= (jogador.GetComponent<Classes>().dano / 2);
-                        slider.value = inimigo.GetComponent<Classes>().hp;
-                        danoMetadeJ = false;
-                        Esquiva.defender = false;
-                    }
                 }
-                    //print("Vida Inimigo = " + inimigo.GetComponent<Classes>().hp);
-                    if (inimigo.GetComponent<Classes>().hp <= 0) {
+                //print("Vida Inimigo = " + inimigo.GetComponent<Classes>().hp);
+                if (inimigo.GetComponent<Classes>().hp <= 0) {
 					//play Derrota inimigo
 					StartCoroutine(AnimRodando(animI,"ninguem"));
 					print("Game Over");
@@ -781,15 +788,23 @@ public class ControladorVez2 : MonoBehaviour {
         }
         if(GameObject.Find("SliderQTE").GetComponent<Slider>().value == GameObject.Find("SliderQTE").GetComponent<Slider>().maxValue) {
             cheio = true;
+            GameObject.Find("QuickTimeEventStarter").GetComponent<Image>().sprite = sprtNEU;
+            GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().transition = Selectable.Transition.ColorTint;
             qTEOcorrendo = false;
+            
 
         }
     }
 
     IEnumerator TempoPraDesativar() {
         yield return new WaitForSecondsRealtime(4f);
-        qTEOcorrendo = false;
-        
+        if (qTEOcorrendo == true) {
+            GameObject.Find("QuickTimeEventStarter").GetComponent<Image>().sprite = sprtNEU;
+            GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().transition = Selectable.Transition.ColorTint;
+            qTEOcorrendo = false;
+        }
+
+
     }
 
     public void Habilidade1() {
