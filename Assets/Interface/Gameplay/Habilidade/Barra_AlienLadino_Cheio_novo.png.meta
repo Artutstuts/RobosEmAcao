@@ -1,7 +1,9 @@
 fileFormatVersion: 2
-guid: 37276e93383f9ea45a5f152107a6083b
+guid: 516e11ee4decc4946a0e6fde393b5e87
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Barra_AlienLadino_Cheio_novo_0
+    21300002: Barra_AlienLadino_Cheio_novo_1
   externalObjects: {}
   serializedVersion: 6
   mipmaps:
@@ -40,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -137,11 +139,51 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Barra_AlienLadino_Cheio_novo_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 823
+        height: 2700
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a57053908b379364b9b60c8a730fc5ef
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Barra_AlienLadino_Cheio_novo_1
+      rect:
+        serializedVersion: 2
+        x: 1291
+        y: 0
+        width: 651
+        height: 2700
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c59378497ef22746932b01c5984a53c
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 0267ed930a324aa4fad85985d294727a
     vertices: []
     indices: 
     edges: []

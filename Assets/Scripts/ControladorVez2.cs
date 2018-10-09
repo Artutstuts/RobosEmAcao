@@ -50,7 +50,7 @@ public class ControladorVez2 : MonoBehaviour {
     public GameObject hab1Botao;
     public GameObject hab2Botao;
     public GameObject hab3Botao;
-    int pontoDeHab = 0;
+    float pontoDeHab = 0;
     bool hab1;
     bool hab2;
     bool hab3;
@@ -96,6 +96,7 @@ public class ControladorVez2 : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (DefaultTrackableEventHandler.qrCodeAtivado == true) {
+            HabilidadeFillTeste();
             if (verificAnims == true) {
                 if (vezJogador == true) {
                     if (funcRodando == false) {
@@ -844,6 +845,25 @@ public class ControladorVez2 : MonoBehaviour {
 
     }
 
+    void HabilidadeFillTeste() {
+        float porcHab = pontoDeHab / 6 * 100;
+        if (pontoDeHab <= 2) {
+            float porcFill = porcHab / 33;
+            GameObject.Find("HabilidadeFundo (1)").GetComponent<Image>().fillAmount = porcFill;
+            GameObject.Find("HabilidadeFundo (2)").GetComponent<Image>().fillAmount = 0;
+            GameObject.Find("HabilidadeFundo (3)").GetComponent<Image>().fillAmount = 0;
+        }
+        if (pontoDeHab >2 && pontoDeHab <= 4) {
+            float porcFill = (porcHab-33) / 33;
+            GameObject.Find("HabilidadeFundo (2)").GetComponent<Image>().fillAmount = porcFill;
+            GameObject.Find("HabilidadeFundo (3)").GetComponent<Image>().fillAmount = 0;
+        }
+        if(pontoDeHab >4 && pontoDeHab <=6){
+            float porcFill = (porcHab-66) / 33;
+            GameObject.Find("HabilidadeFundo (3)").GetComponent<Image>().fillAmount = porcFill;
+        }
+        
+    }
 
 
 
