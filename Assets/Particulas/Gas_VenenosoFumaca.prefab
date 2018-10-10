@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 198154364453253394}
   - component: {fileID: 199721360778512148}
   m_Layer: 0
-  m_Name: Gas_Venenoso
+  m_Name: Gas_VenenosoFumaca
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

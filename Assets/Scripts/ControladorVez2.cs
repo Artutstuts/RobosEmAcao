@@ -54,6 +54,8 @@ public class ControladorVez2 : MonoBehaviour {
     bool hab1;
     bool hab2;
     bool hab3;
+    public GameObject telaVitoria;
+    public GameObject telaDerrota;
 
 
     // Use this for initialization
@@ -64,7 +66,6 @@ public class ControladorVez2 : MonoBehaviour {
         hab3Botao.SetActive(false);
 
 
-        gameOver = false;
 		animJ = jogador.GetComponent<Animator> ();
 		animI = inimigo.GetComponent<Animator> ();
 		yield return new WaitUntil(()=>DefaultTrackableEventHandler.qrCodeAtivado == true);
@@ -112,11 +113,6 @@ public class ControladorVez2 : MonoBehaviour {
             if (verificAnims == true) {
                 AnimatorIsPlayingI(animI, name);
                 AnimatorIsPlayingJ(animJ, name2);
-            }
-            if (gameOver == true) {
-                if (Input.anyKeyDown == true) {
-                    SceneManager.LoadScene("ARLatinha");
-                }
             }
             if(pontoDeHab >= 2) {
                 hab1Botao.SetActive(true);
@@ -264,7 +260,6 @@ public class ControladorVez2 : MonoBehaviour {
 					print("Vida Inimigo = " + inimigo.GetComponent<Classes>().hp);
 					print("Vida Jogador = " + jogador.GetComponent<Classes>().hp);
 					print("Inimigo Venceu");
-                    gameOver = true;
                     DetectorDeHit.mao.Clear();
                 } else {
                     yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
@@ -524,6 +519,7 @@ public class ControladorVez2 : MonoBehaviour {
                 else
                 {
                     animI.SetTrigger("Derrota");
+                    StartCoroutine(MenuFinal("Vitoria"));
                 }
                 verificAnims = true;
                 yield return new WaitWhile(() => animJRodando == true);
@@ -565,6 +561,7 @@ public class ControladorVez2 : MonoBehaviour {
                 else
                 {
                     animJ.SetTrigger("Derrota");
+                    StartCoroutine(MenuFinal("Derrota"));
                 }
                 DetectorDeHit.encostou = false;
                 yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
@@ -628,6 +625,8 @@ public class ControladorVez2 : MonoBehaviour {
                 else
                 {
                     animJ.SetTrigger("Derrota");
+                    StartCoroutine(MenuFinal("Derrota"));
+
                 }
                 verificAnims = true;
                 yield return new WaitWhile(() => animIRodando == true);
@@ -667,6 +666,8 @@ public class ControladorVez2 : MonoBehaviour {
                 else
                 {
                     animI.SetTrigger("Derrota");
+                    StartCoroutine(MenuFinal("Vitoria"));
+
                 }
                 DetectorDeHit.encostou = false;
                 yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
@@ -880,6 +881,20 @@ public class ControladorVez2 : MonoBehaviour {
         
     }
 
+    public void LoadarCena() {
+        SceneManager.LoadScene("MenuInicial");
+        Screen.orientation = ScreenOrientation.Portrait;
+    }
+
+    IEnumerator MenuFinal(string s) {
+        yield return new WaitForSecondsRealtime(2f);
+        if (s == "Vitoria") {
+            telaVitoria.SetActive(true);
+        } else {
+            telaDerrota.SetActive(true);
+        }
+
+    }
 
 
 }

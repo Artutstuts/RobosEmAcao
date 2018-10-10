@@ -8,7 +8,7 @@ public class IniciarJogo : MonoBehaviour {
 
     public void LoadCena(){
         SceneManager.LoadScene("ARLatinha");
-        Screen.orientation = ScreenOrientation.LandscapeLeft;
+        Screen.orientation = ScreenOrientation.Landscape;
     }
 
 }
