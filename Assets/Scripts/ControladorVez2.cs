@@ -37,6 +37,7 @@ public class ControladorVez2 : MonoBehaviour {
     bool acertouBotao = false;
     public SpriteState sprstatATK;
     public SpriteState sprstatDEF;
+    public SpriteState sprstatNEU;
     public Sprite sprtDEF;
     bool cheio = false;
     bool qTEOcorrendo = false;
@@ -718,6 +719,10 @@ public class ControladorVez2 : MonoBehaviour {
         x = Random.Range(-110, 90);
         qTE.transform.localPosition = new Vector3(x, y);
         qTE.SetActive(true);
+        acertouBotao = false;
+        GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().spriteState = sprstatNEU;
+        GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().transition = Selectable.Transition.ColorTint;
+        GameObject.Find("QuickTimeEventStarter").GetComponent<Image>().sprite = sprtNEU;
         Time.timeScale = 0.2f;
         yield return new WaitForSecondsRealtime(0.8f);
         StartCoroutine(TempoPraDesativar());
@@ -771,26 +776,31 @@ public class ControladorVez2 : MonoBehaviour {
         SQTE.gameObject.SetActive(true);
         qTEOcorrendo = true;
         if (acertouBotao == true) {
-            Time.timeScale = 0.1f;
-            GameObject.Find("QuickTimeEventStarter").GetComponent<Image>().sprite = sprtATK;
-            GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().transition = Selectable.Transition.SpriteSwap;
-            GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().spriteState = sprstatATK;
-            qTE.transform.localPosition = new Vector3(300, -360);
-            //  qTE.rectTransform.localScale = new Vector3(0.08f, 0.08f);
-            GameObject.Find("SliderQTE").GetComponent<Slider>().value += 10;
+            if (qTEOcorrendo == true) {
+                Time.timeScale = 0.1f;
+                GameObject.Find("QuickTimeEventStarter").GetComponent<Image>().sprite = sprtATK;
+                GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().transition = Selectable.Transition.SpriteSwap;
+                GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().spriteState = sprstatATK;
+                qTE.transform.localPosition = new Vector3(300, -360);
+                //  qTE.rectTransform.localScale = new Vector3(0.08f, 0.08f);
+                GameObject.Find("SliderQTE").GetComponent<Slider>().value += 10;
+            }
         } else {
-            Time.timeScale = 0.1f;
-            GameObject.Find("QuickTimeEventStarter").GetComponent<Image>().sprite = sprtDEF;
-            GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().transition = Selectable.Transition.SpriteSwap;
-            GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().spriteState = sprstatDEF;
-            qTE.transform.localPosition = new Vector3(300, -360);
-            //  qTE.rectTransform.localScale = new Vector3(0.08f, 0.08f);
-            GameObject.Find("SliderQTE").GetComponent<Slider>().value += 10;
+            if (qTEOcorrendo == true) {
+                Time.timeScale = 0.1f;
+                GameObject.Find("QuickTimeEventStarter").GetComponent<Image>().sprite = sprtDEF;
+                GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().transition = Selectable.Transition.SpriteSwap;
+                GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().spriteState = sprstatDEF;
+                qTE.transform.localPosition = new Vector3(300, -360);
+                //  qTE.rectTransform.localScale = new Vector3(0.08f, 0.08f);
+                GameObject.Find("SliderQTE").GetComponent<Slider>().value += 10;
+            }
         }
         if(GameObject.Find("SliderQTE").GetComponent<Slider>().value == GameObject.Find("SliderQTE").GetComponent<Slider>().maxValue) {
             cheio = true;
-            GameObject.Find("QuickTimeEventStarter").GetComponent<Image>().sprite = sprtNEU;
+            GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().spriteState = sprstatNEU;
             GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().transition = Selectable.Transition.ColorTint;
+            GameObject.Find("QuickTimeEventStarter").GetComponent<Image>().sprite = sprtNEU;
             qTEOcorrendo = false;
             
 
@@ -800,8 +810,9 @@ public class ControladorVez2 : MonoBehaviour {
     IEnumerator TempoPraDesativar() {
         yield return new WaitForSecondsRealtime(4f);
         if (qTEOcorrendo == true) {
-            GameObject.Find("QuickTimeEventStarter").GetComponent<Image>().sprite = sprtNEU;
+            GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().spriteState = sprstatNEU;
             GameObject.Find("QuickTimeEventStarter").GetComponent<Button>().transition = Selectable.Transition.ColorTint;
+            GameObject.Find("QuickTimeEventStarter").GetComponent<Image>().sprite = sprtNEU;
             qTEOcorrendo = false;
         }
 
