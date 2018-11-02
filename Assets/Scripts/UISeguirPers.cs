@@ -7,7 +7,7 @@ public class UISeguirPers : MonoBehaviour {
     public GameObject obj;
     public Camera camera;
     RectTransform rt;
-    public float posy;
+     float posy;
 
 
 	// Use this for initialization
@@ -15,7 +15,17 @@ public class UISeguirPers : MonoBehaviour {
 
 
         rt = gameObject.GetComponent<RectTransform>();
-
+        if (gameObject.tag == "jogador") {
+            obj = GameObject.Find("Controlador").GetComponent<ControladorVez2>().jogador.transform.GetChild(1).gameObject;
+            if(GameObject.Find("Controlador").GetComponent<ControladorVez2>().jogador.tag == "Ladino") {
+                posy = 49;
+            } else {
+                posy = 77;
+            }
+        } else {
+            obj = GameObject.Find("Controlador").GetComponent<ControladorVez2>().inimigo.transform.GetChild(1).gameObject;
+            posy = 77;
+        }
 	}
 	
 	// Update is called once per frame

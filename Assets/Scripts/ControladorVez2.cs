@@ -6,7 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class ControladorVez2 : MonoBehaviour {
 
-	public GameObject jogador;
+    public GameObject guerreiro;
+    public GameObject tanque;
+    public GameObject ladino;
+    public GameObject jogador;
 	public GameObject inimigo;
 	int jDesviou = 0;
 	int iDesviou = 0;
@@ -61,6 +64,22 @@ public class ControladorVez2 : MonoBehaviour {
 
     // Use this for initialization
     IEnumerator Start () {
+
+        if(SelecionarPers.tank == true) {
+            jogador = tanque;
+            SelecionarPers.tank = false;
+        }
+        else if (SelecionarPers.guer == true) {
+            jogador = guerreiro;
+            SelecionarPers.guer = false;
+        }
+        else if (SelecionarPers.ladi == true) {
+            jogador = ladino;
+            SelecionarPers.ladi = false;
+        }
+        yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+        jogador.SetActive(true);
+     //   jogador.GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;
 
         hab1Botao.SetActive(false);
         hab2Botao.SetActive(false);

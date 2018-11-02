@@ -87,7 +87,9 @@ public class DefaultTrackableEventHandler : MonoBehaviour, ITrackableEventHandle
 
         // Enable rendering:
         foreach (var component in rendererComponents)
-            component.enabled = true;
+            if (component.gameObject.tag !="EditorOnly") {
+                component.enabled = true;
+            }
 
         // Enable colliders:
         foreach (var component in colliderComponents)

@@ -1,0 +1,216 @@
+fileFormatVersion: 2
+guid: 7d4ff611e5bc455488b6795690587728
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Barriga
+    100002: Cabeca
+    100004: L_Braco
+    100006: L_Mao
+    100008: L_Robo_Braco
+    100010: L_Robo_cravicula
+    100012: L_Robo_Joelho
+    100014: L_Robo_Mao
+    100016: L_Robo_Ombro
+    100018: L_Robo_Pe
+    100020: L_Robo_Perna
+    100022: L_Robo_PontaPe
+    100024: L_Root_Tubo_
+    100026: L_Tubo_1
+    100028: L_Tubo_10
+    100030: L_Tubo_11
+    100032: L_Tubo_12
+    100034: L_Tubo_13
+    100036: L_Tubo_14
+    100038: L_Tubo_2
+    100040: L_Tubo_3
+    100042: L_Tubo_4
+    100044: L_Tubo_5
+    100046: L_Tubo_6
+    100048: L_Tubo_7
+    100050: L_Tubo_8
+    100052: L_Tubo_9
+    100054: Mesh_Robo_Tank
+    100056: Peitoral
+    100058: pSphere1
+    100060: R_Braco
+    100062: R_Mao
+    100064: R_Robo_Braco
+    100066: R_Robo_cravicula
+    100068: R_Robo_Joelho
+    100070: R_Robo_Mao
+    100072: R_Robo_Ombro
+    100074: R_Robo_Pe
+    100076: R_Robo_Perna
+    100078: R_Robo_PontaPe
+    100080: R_Root_Tubo_
+    100082: R_Tubo_1
+    100084: R_Tubo_10
+    100086: R_Tubo_11
+    100088: R_Tubo_12
+    100090: R_Tubo_13
+    100092: R_Tubo_14
+    100094: R_Tubo_2
+    100096: R_Tubo_3
+    100098: R_Tubo_4
+    100100: R_Tubo_5
+    100102: R_Tubo_6
+    100104: R_Tubo_7
+    100106: R_Tubo_8
+    100108: R_Tubo_9
+    100110: Robo_Control
+    100112: Root
+    100114: //RootNode
+    100116: Topo
+    400000: Barriga
+    400002: Cabeca
+    400004: L_Braco
+    400006: L_Mao
+    400008: L_Robo_Braco
+    400010: L_Robo_cravicula
+    400012: L_Robo_Joelho
+    400014: L_Robo_Mao
+    400016: L_Robo_Ombro
+    400018: L_Robo_Pe
+    400020: L_Robo_Perna
+    400022: L_Robo_PontaPe
+    400024: L_Root_Tubo_
+    400026: L_Tubo_1
+    400028: L_Tubo_10
+    400030: L_Tubo_11
+    400032: L_Tubo_12
+    400034: L_Tubo_13
+    400036: L_Tubo_14
+    400038: L_Tubo_2
+    400040: L_Tubo_3
+    400042: L_Tubo_4
+    400044: L_Tubo_5
+    400046: L_Tubo_6
+    400048: L_Tubo_7
+    400050: L_Tubo_8
+    400052: L_Tubo_9
+    400054: Mesh_Robo_Tank
+    400056: Peitoral
+    400058: pSphere1
+    400060: R_Braco
+    400062: R_Mao
+    400064: R_Robo_Braco
+    400066: R_Robo_cravicula
+    400068: R_Robo_Joelho
+    400070: R_Robo_Mao
+    400072: R_Robo_Ombro
+    400074: R_Robo_Pe
+    400076: R_Robo_Perna
+    400078: R_Robo_PontaPe
+    400080: R_Root_Tubo_
+    400082: R_Tubo_1
+    400084: R_Tubo_10
+    400086: R_Tubo_11
+    400088: R_Tubo_12
+    400090: R_Tubo_13
+    400092: R_Tubo_14
+    400094: R_Tubo_2
+    400096: R_Tubo_3
+    400098: R_Tubo_4
+    400100: R_Tubo_5
+    400102: R_Tubo_6
+    400104: R_Tubo_7
+    400106: R_Tubo_8
+    400108: R_Tubo_9
+    400110: Robo_Control
+    400112: Root
+    400114: //RootNode
+    400116: Topo
+    2100000: Robo_Tank_Humano_Texture
+    2100002: blinn1
+    2100004: lambert6
+    2300000: pSphere1
+    3300000: pSphere1
+    4300000: Mesh_Robo_Tank
+    4300002: pSphere1
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Mesh_Robo_Tank
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
