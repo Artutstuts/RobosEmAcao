@@ -60,6 +60,7 @@ public class ControladorVez2 : MonoBehaviour {
     bool hab3;
     public GameObject telaVitoria;
     public GameObject telaDerrota;
+    bool cHab = false;
 
 
     // Use this for initialization
@@ -396,34 +397,9 @@ public class ControladorVez2 : MonoBehaviour {
 
                     //ESPECIFICO PARA A DEMODAY
                     if ((danoDobradoJ == false && danoMetadeJ == false) || (danoDobradoJ == true && danoMetadeJ == false)) {
-                        if (danoDobradoJ == true) {
-                            inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
-                            danoDobradoJ = false;
-                        }
-                        if (hab1 == true) {
-                            inimigo.GetComponent<Classes>().hp += jogador.GetComponent<Classes>().dano / 2;
-                            jogador.GetComponent<Classes>().hp += jogador.GetComponent<Classes>().dano / 2;
-                            sliderJ.value = jogador.GetComponent<Classes>().hp;
-                            hab1 = false;
-                        }
-                        if (hab2 == true) {
-                            inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
-                            hab2 = false;
-                        }
-                        if (hab3 == true) {
-                            inimigo.GetComponent<Classes>().hp -= (jogador.GetComponent<Classes>().dano * 2);
-                            hab3 = false;
-                        }
-                        yield return new WaitWhile(() => DetectorDeHit.encostou == false);
-                        // yield return new WaitForSecondsRealtime(1.5f);
-
-                        yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
-                        //  inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
-                        animI.SetTrigger("Dano");
-                        name = "Dano";
-                        duasAnim = true;
-
-                        slider.value = inimigo.GetComponent<Classes>().hp;
+                        StartCoroutine(Habilidades());
+                        yield return new WaitUntil(() => cHab == true);
+                        cHab = false;
                     } else if (danoMetadeJ == true) {
                         yield return new WaitUntil(() => Esquiva.defender == true);
                         yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
@@ -482,8 +458,100 @@ public class ControladorVez2 : MonoBehaviour {
 		}
 
 	}
+
+    IEnumerator Habilidades() {
+
+        if (gameObject.GetComponent<ControladorVez2>().jogador.tag == "Ladino") {
+            if ((danoDobradoJ == false && danoMetadeJ == false) || (danoDobradoJ == true && danoMetadeJ == false)) {
+                if (danoDobradoJ == true) {
+                    inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                    danoDobradoJ = false;
+                }
+                if (hab1 == true) {
+                    inimigo.GetComponent<Classes>().hp += jogador.GetComponent<Classes>().dano / 2;
+                    jogador.GetComponent<Classes>().hp += jogador.GetComponent<Classes>().dano / 2;
+                    sliderJ.value = jogador.GetComponent<Classes>().hp;
+                    hab1 = false;
+                }
+                if (hab2 == true) {
+                    inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                    hab2 = false;
+                }
+                if (hab3 == true) {
+                    inimigo.GetComponent<Classes>().hp -= (jogador.GetComponent<Classes>().dano * 2);
+                    hab3 = false;
+                }
+                yield return new WaitWhile(() => DetectorDeHit.encostou == false);
+                // yield return new WaitForSecondsRealtime(1.5f);
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                //  inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                animI.SetTrigger("Dano");
+                name = "Dano";
+                duasAnim = true;
+                slider.value = inimigo.GetComponent<Classes>().hp;
+            }
+        }else if (gameObject.GetComponent<ControladorVez2>().jogador.tag == "Guerreiro") {
+            if ((danoDobradoJ == false && danoMetadeJ == false) || (danoDobradoJ == true && danoMetadeJ == false)) {
+                if (danoDobradoJ == true) {
+                    inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                    danoDobradoJ = false;
+                }
+                if (hab1 == true) {
+                    inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano / 2;
+                    hab1 = false;
+                }
+                if (hab2 == true) {
+                    inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                    hab2 = false;
+                }
+                if (hab3 == true) {
+                    inimigo.GetComponent<Classes>().hp -= (jogador.GetComponent<Classes>().dano * 2);
+                    hab3 = false;
+                }
+                yield return new WaitWhile(() => DetectorDeHit.encostou == false);
+                // yield return new WaitForSecondsRealtime(1.5f);
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                //  inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                animI.SetTrigger("Dano");
+                name = "Dano";
+                duasAnim = true;
+                slider.value = inimigo.GetComponent<Classes>().hp;
+            }
+        } else {
+            if ((danoDobradoJ == false && danoMetadeJ == false) || (danoDobradoJ == true && danoMetadeJ == false)) {
+                if (danoDobradoJ == true) {
+                    inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                    danoDobradoJ = false;
+                }
+                if (hab1 == true) {
+                    inimigo.GetComponent<Classes>().hp += jogador.GetComponent<Classes>().dano / 2;
+                    jogador.GetComponent<Classes>().hp += jogador.GetComponent<Classes>().dano / 2;
+                    sliderJ.value = jogador.GetComponent<Classes>().hp;
+                    hab1 = false;
+                }
+                if (hab2 == true) {
+                    inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                    hab2 = false;
+                }
+                if (hab3 == true) {
+                    inimigo.GetComponent<Classes>().hp -= (jogador.GetComponent<Classes>().dano * 2);
+                    hab3 = false;
+                }
+                yield return new WaitWhile(() => DetectorDeHit.encostou == false);
+                // yield return new WaitForSecondsRealtime(1.5f);
+                yield return new WaitUntil(() => DefaultTrackableEventHandler.qrCodeAtivado == true);
+                //  inimigo.GetComponent<Classes>().hp -= jogador.GetComponent<Classes>().dano;
+                animI.SetTrigger("Dano");
+                name = "Dano";
+                duasAnim = true;
+                slider.value = inimigo.GetComponent<Classes>().hp;
+            }
+        }
+        cHab = true;
+    }
 		
 	IEnumerator AnimRodando(Animator anim,string vezDeQuem){
+
 		verificAnims = true;
 		yield return new WaitForSeconds (0.3f);
 		//print("FDJSIJF");
